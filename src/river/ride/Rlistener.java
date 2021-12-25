@@ -175,9 +175,9 @@ public class Rlistener implements GLEventListener, KeyListener {
                 enemy.setY(enemy.getY() - 1);
                 respawnSprite(enemy);
                 //sharpedite
-                    player.colideWith(enemy);
+                    player.colideWith(enemies.get(0));
                 //sharp
-                if (enemy.getY() < -30) {
+                if (enemy.getY() < -10) {
                     enemies.remove(enemy);
                 }
                 /////////////////////////////////////////////level 1

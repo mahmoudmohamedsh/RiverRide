@@ -53,12 +53,12 @@ public class Sprite {
     public boolean colideWith(Sprite sprite){
         int [] value = this.clampFunction(sprite.getX(), sprite.getY());
         double distanece = Math.sqrt(Math.pow(sprite.getX() - value[0], 2) +Math.pow(sprite.getY() - value[1], 2) );
-        gl.glColor3f(1.0f, 0.0f, 0.0f);
-   gl.glBegin(GL.GL_LINES);
-                       gl.glVertex2d(value[0]/(consts.maxWidth/2.0)-1, value[1]/(consts.maxHeight/2.0)-1 );
-                         gl.glVertex2d(sprite.getX()/(consts.maxWidth/2.0)-1, sprite.getY()/(consts.maxHeight/2.0)-1 );
-
- gl.glEnd();
+      
+     gl.glBegin(GL.GL_LINES);
+    gl.glColor3f(1.0f, 0.0f, 0.0f);
+    gl.glVertex2d(value[0]/(consts.maxWidth/2.0)-1, value[1]/(consts.maxHeight/2.0)-1 );
+    gl.glVertex2d(sprite.getX()/(consts.maxWidth/2.0)-1, sprite.getY()/(consts.maxHeight/2.0)-1 );
+    gl.glEnd();
  gl.glColor3f(1.0f, 1.0f, 1.0f);
  if (distanece <= sprite.getxScale() * 50)
             gl.glColor3f(1.0f, 0.0f, 0.0f);
