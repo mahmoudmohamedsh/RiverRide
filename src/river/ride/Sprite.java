@@ -2,6 +2,7 @@ package river.ride;
 
 
 import javax.media.opengl.GL;
+import java.lang.Math;
 
 public class Sprite {
     private GL gl;
@@ -44,10 +45,79 @@ public class Sprite {
             gl.glEnd();
         gl.glPopMatrix();
         gl.glDisable(GL.GL_BLEND);
+        this.drawCircleColider();
+        this.DrawRectColider();
     }
     
     
-    
+    public boolean colideWith(Sprite sprite){
+        int [] value = this.clampFunction(sprite.getX(), sprite.getY());
+        double distanece = Math.sqrt(Math.pow(sprite.getX() - value[0], 2) +Math.pow(sprite.getY() - value[1], 2) );
+        gl.glColor3f(1.0f, 0.0f, 0.0f);
+   gl.glBegin(GL.GL_LINES);
+                       gl.glVertex2d(value[0]/(consts.maxWidth/2.0)-1, value[1]/(consts.maxHeight/2.0)-1 );
+                         gl.glVertex2d(sprite.getX()/(consts.maxWidth/2.0)-1, sprite.getY()/(consts.maxHeight/2.0)-1 );
+
+ gl.glEnd();
+ gl.glColor3f(1.0f, 1.0f, 1.0f);
+ if (distanece <= sprite.getxScale() * 50)
+            gl.glColor3f(1.0f, 0.0f, 0.0f);
+        
+       return false;
+   }
+    public void drawCircleColider(){
+        double x_c ,y_c;
+        double ONE_DEGREE = (Math.PI / 180);
+        double THREE_SIXTY = 2 * Math.PI;
+        
+         gl.glColor3f(0.0f, 1.0f, 0.0f);
+        gl.glPushMatrix();
+            gl.glTranslated( x/(consts.maxWidth/2.0)-1, y/(consts.maxHeight/2.0)-1, 0);
+            gl.glScaled(xScale, yScale, 1);
+            
+            gl.glBegin(GL.GL_LINES);
+            
+//            gl.glBegin(GL.GL_POINT);
+                for (double a = 0;a < THREE_SIXTY; a += ONE_DEGREE) {
+                    x_c = (Math.cos(a));
+                    y_c = (Math.sin(a));
+                    gl.glVertex2d(x_c, y_c);
+                }
+       
+            gl.glEnd();
+            gl.glColor3f(1.0f, 1.0f, 1.0f);
+            gl.glPopMatrix();
+    }
+    public void DrawRectColider(){
+        
+
+        gl.glPushMatrix();
+            gl.glTranslated( x/(consts.maxWidth/2.0)-1, y/(consts.maxHeight/2.0)-1, 0);
+            gl.glScaled(xScale, yScale, 1);
+            gl.glColor3f(1.0f, 0.0f, 0.0f);
+            gl.glBegin(GL.GL_LINES);
+                gl.glVertex3f(-1.0f, -1.0f, -1.0f);
+                gl.glVertex3f(1.0f, -1.0f, -1.0f);
+                
+                gl.glVertex3f(1.0f, -1.0f, -1.0f);
+                gl.glVertex3f(1.0f, 1.0f, -1.0f);
+                
+                gl.glVertex3f(1.0f, 1.0f, -1.0f);
+                gl.glVertex3f(-1.0f, 1.0f, -1.0f);
+                
+                gl.glVertex3f(-1.0f, 1.0f, -1.0f);
+                gl.glVertex3f(-1.0f, -1.0f, -1.0f);
+            gl.glEnd();
+            
+        gl.glPopMatrix();
+        gl.glColor3f(1.0f, 1.0f, 1.0f);
+    }
+    public int[] clampFunction(int cx , int cy){
+        int nx = (int) Math.max(this.x - this.xScale * 50 , Math.min(cx ,( this.x + this.xScale * 50)) );
+        int ny = (int) Math.max(this.y - this.yScale * 50 , Math.min(cy ,( this.y + this.yScale * 50)) );
+        return new int[]{nx,ny};
+        
+    }
     public void scale(float xScale, float yScale){
         
     }
@@ -102,8 +172,6 @@ public class Sprite {
     public int getMoveDirection() {
         return moveDirection;
     }
-    public boolean colideWith(Sprite sprite){
 
-       return true;
-   }
+
 }

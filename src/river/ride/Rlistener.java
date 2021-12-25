@@ -72,7 +72,7 @@ public class Rlistener implements GLEventListener, KeyListener {
             GL gl = gld.getGL();
             gl.glClear(GL.GL_COLOR_BUFFER_BIT);       //Clear The Screen And The Depth Buffer
             gl.glLoadIdentity();
-            backGround = backGroundLoop(backGround);
+//            backGround = backGroundLoop(backGround);
             if (timer == respawnEnemyTime) {
                 timer = 0;
                 enemies.add(createEnemy(gl));
@@ -157,12 +157,13 @@ public class Rlistener implements GLEventListener, KeyListener {
 
     private void respawnSprite(Sprite Sprite) {
         Sprite.DrawSprite();
+        Sprite.drawCircleColider();
     }
 
     private Sprite createEnemy(GL gl) {
         int x = (int) (Math.random() * 91) + 6;
         int y = 105;
-        Sprite enemy = new Sprite(gl, x, y, textures[4], 0.15f, 0.10f, (int) (Math.random() * 2));
+        Sprite enemy = new Sprite(gl, x, y, textures[4], 0.15f, 0.15f, (int) (Math.random() * 2));
         return enemy;
     }
 
@@ -173,6 +174,9 @@ public class Rlistener implements GLEventListener, KeyListener {
                 Sprite enemy = enemies.get(i);
                 enemy.setY(enemy.getY() - 1);
                 respawnSprite(enemy);
+                //sharpedite
+                    player.colideWith(enemy);
+                //sharp
                 if (enemy.getY() < -30) {
                     enemies.remove(enemy);
                 }
